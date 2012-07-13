@@ -3,38 +3,75 @@ title: Documentation
 layout: default 
 ---
 
-<h1>Documentation</h1>
+<h1>RLPark Documentation</h1>
 
 Documentation is usually written on requests. If the code is unclear and
 you would like a specific point to be documented in RLPark, please send
 an email to the <a href='http://groups.google.com/group/githubrlpark'>group</a>
 with the appropriate information.
 
-<h3><img border="0" height="32" src="images/logo_java.jpg" />Code Snippet about Reinforcement Learning in Java</h3>
+<h2>RLPark repository:</h2>
+
+Github repository: <a href="https://github.com/rlpark/rlpark">https://github.com/rlpark/rlpark</a>
+<br/>
+<br/>
+Code Snippets on Reinforcement Learning:
 <ul>
-	<li><a href="doc_codejava_sarsa.html">Sarsa on Mountain Car</a></li>
-	<li><a href="doc_codejava_ac.html">Actor-critic on the Pendulum with Continuous Action</a></li>
-	<li><a href="doc_codejava_offpac.html">Off-PAC learning off-policy in a 2D continuous world</a></li>
+	<li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_codejava_sarsa.html">Sarsa on Mountain Car</a></li>
+	<li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_codejava_ac.html">Actor-critic on the Pendulum with Continuous Action</a></li>
+	<li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_codejava_offpac.html">Off-PAC learning off-policy in a 2D continuous world</a></li>
 </ul>
 
-<h3><img border="0" height="32" src="images/logo_java.jpg" />Other Code Snippets in  Java</h3>
+Other Code Snippets:
 <ul>
-	<li><a href="doc_codejavascheduling.html">Using Scheduling for Running Jobs in Parallel</a></li>
-	<li><a href="doc_codejavacreate.html">Using an iRobot Create</a></li>
-	<li><a href="doc_codejavacritterbot.html">Using the Critterbot</a></li>
-    <li><a href="doc_tutorialcreate.html">iRobot Create Introduction Session</a></li>
-    <li><a href="doc_tutorialsurprise.html">iRobot Create being surprised</a></li>
-    <li><a href="doc_tutorialvideo.html">Using the video: an example of motion detection</a></li>
+	<li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_codejavascheduling.html">Using Scheduling for Running Jobs in Parallel</a></li>
+    <li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_tutorialvideo.html">Using the video: an example of motion detection</a></li>
 </ul>
 
-<h3><img border="0" height="32" src="images/logo_jython.jpg" />Code Snippet in Jython</h3>
-
+<h2>iRobot repository:</h2>
+<img border="0" height="32" src="images/robot_create.jpg"/>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img border="0" height="32" src="images/robot_roomba.jpg" />
+<br/>
+Github repository: <a href="https://github.com/rlpark/irobots">https://github.com/rlpark/irobots</a>
+<br/>
+<br/>
+Code Snippets:
 <ul>
-	<li><a href="doc_codejythoncreate.html">Using an iRobot Create</a></li>
-	<li><a href="doc_codejythondemons.html">Using demons</a></li>
+    <li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_tutorialcreate.html">iRobot Create Introduction Session</a></li>
+	<li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_codejavacreate.html">Using an iRobot Create</a></li>
+    <li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_tutorialsurprise.html">iRobot Create being surprised</a></li>
+	<li><img border="0" height="16" src="images/logo_jython.jpg" /><a href="doc_codejythoncreate.html">Using an iRobot Create in Jython</a></li>
 </ul>
 
-<h3>Links</h3>
+<h2>Dynamixel repository:</h2>
+<img border="0" height="32" src="images/robot_dynamixel.jpg"/>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="32" src="images/robot_dynamixel_logo.jpg"/>
+<br/>
+Github repository: <a href="https://github.com/rlpark/dynamixel">https://github.com/rlpark/dynamixel</a>
+<br/>
+<br/>
+Code Snippets:
+<ul>
+	<li><img border="0" height="16" src="images/logo_java.jpg" /><a href="https://github.com/rlpark/dynamixel/blob/master/rlpark.plugin.dynamixel/src/rlpark/plugin/dynamixel/examples/DynamixelReader.java">Using a set of motors</a></li>
+</ul>
+
+<h2>Critterbot repository:</h2>
+<img height="32" src="images/robot_critterbot_logo.png" />
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="32" src="images/robot_critterbot.jpg"/>
+<br/> 
+Github repository: <a href="https://github.com/rlpark/critterbot">https://github.com/rlpark/critterbot</a>
+<br/>
+<br/>
+Code Snippets:
+<ul>
+	<li><img border="0" height="16" src="images/logo_java.jpg" /><a href="doc_codejavacritterbot.html">Using the Critterbot</a></li>
+	<li><img border="0" height="16" src="images/logo_jython.jpg" /><a href="doc_codejythondemons.html">The horde architecture in Jython</a></li>
+</ul>
+
+<h2>Links</h2>
 <ul>
 	<li><a href="http://www.ualberta.ca/%7Edegris/doxygen/html/">Documentation generated</a> from the code source</li>
 	<li><a
@@ -51,32 +88,3 @@ The following two books are available online:
 </ul>
 
 
-<h3>Framework dependencies</h3>
-
-The structure of dependencies in RLPark projects:
-<ul>
-	<li>zephyr.plugin.core.api
-		<ul>
-			<li>rlpark.plugin.rltoys
-				<ul>
-					<li>rlpark.plugin.robot
-						<ul>
-							<li>rlpark.plugin.irobot
-								<ul>
-									<li>rlpark.plugin.irobotview</li>
-								</ul>
-							</li>
-							<li>rlpark.plugin.critterbot
-								<ul>
-									<li>rlpark.plugin.critterview</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-					<li>rlpark.plugin.rltoysview</li>
-				</ul>
-			</li>
-			<li>rlpark.plugin.opencv</li>
-		</ul>
-	</li>
-</ul>
