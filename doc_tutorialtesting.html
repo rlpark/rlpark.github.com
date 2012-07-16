@@ -1,0 +1,102 @@
+--- 
+title: Tutorial Testing the correctness of an algorithm 
+layout: documentation 
+---
+
+<h1>Tutorial: Testing the correctness of an algorithm</h1>
+
+<h3>Online non-stationary supervised learning</h3>
+
+Check that online learning algorithms are able to learn to predict with an error below some threshold.
+<br/>
+Code snippet: testing the IDBD algorithm
+<pre>
+    NoisyInputSum problem = new NoisyInputSum();
+    double error = problem.evaluateLearner(new IDBD(NoisyInputSum.NbInputs, 0.001));
+    Assert.assertEquals(2.0, error, 0.1);
+</pre>
+See the package <a href="https://github.com/rlpark/rlpark/tree/master/rlpark.plugin.rltoys/jvsrctests/rlpark/plugin/rltoys/junit/algorithms/predictions/supervised">rlpark.plugin.rltoys.junit.algorithms.predictions.supervised</a> for more tests.
+
+<h3>Online temporal difference learning</h3>
+
+Check that online TD algorithms are able to converge <i>on-policy</i> to the TD fix point on a random walk problem.
+<br/>
+Code snippet: testing the TD(λ) algorithm<br/>
+<pre>
+    RandomWalk randomWalkProblem = new RandomWalk(new Random(0));
+    FiniteStateGraphOnPolicy.testTD(randomWalkProblem, new OnPolicyTDFactory() {
+      @Override
+      public OnPolicyTD create(int nbFeatures) {
+        return new TDLambda(0.1, 0.9, 0.01, nbFeatures);
+      }
+    });
+</pre>
+See <a href="https://github.com/rlpark/rlpark/blob/master/rlpark.plugin.rltoys/jvsrctests/rlpark/plugin/rltoys/junit/algorithms/predictions/td/TDTest.java">rlpark.plugin.rltoys.junit.algorithms.predictions.td.TDTest</a> for more tests.
+<br/>
+<br/>
+Check that online TD algorithms are able to converge <i>off-policy</i> to the TD fix point on a random walk problem.
+<br/>
+Code snippet: testing off-policy TD and Gradient-TD algorithms<br/>
+<pre>
+    OffPolicyTDFactory tdFactory = new OffPolicyTDFactory() {
+      @Override
+      public OffPolicyTD newTD(double lambda, double gamma, int vectorSize) {
+        return new GTDLambda(lambda, gamma, alpha_v, alpha_w, vectorSize, new AMaxTraces());
+      }
+    };
+    TestingResult&lt;OffPolicyTD&gt; result = RandomWalkOffPolicy.testOffPolicyGTD(lambda, gamma, targetLeftProbability,
+                                                                             behaviourLeftProbability, tdFactory);
+    Assert.assertTrue(result.message, result.passed);
+</pre>
+See <a href="https://github.com/rlpark/rlpark/blob/master/rlpark.plugin.rltoys/jvsrctests/rlpark/plugin/rltoys/junit/algorithms/predictions/td/GTDLambdaTest.java">rlpark.plugin.rltoys.junit.algorithms.predictions.td.GTDLambdaTest</a> for more tests.
+
+
+<h3>Control on a reinforcement learning problem</h3>
+
+Check that online control algorithms are able to learn <i>on-policy</i> a policy with some minimal performance.  
+<br/>
+Code snippet: test an actor-critic algorithm on the pendulum problem<br/>
+<pre>
+    Assert.assertTrue(PendulumOnPolicyLearning.evaluate(new ActorCriticFactory() {
+      @Override
+      public ControlLearner create(int vectorSize, double vectorNorm, PolicyDistribution policyDistribution) {
+        TD critic = new TD(1.0, 0.5 / vectorNorm, vectorSize);
+        Actor actor = new Actor(policyDistribution, 0.05 / vectorNorm, vectorSize);
+        return new AverageRewardActorCritic(0.01, critic, actor);
+      }
+    }) &gt; .75);
+</pre>
+See <a href="https://github.com/rlpark/rlpark/blob/master/rlpark.plugin.rltoys/jvsrctests/rlpark/plugin/rltoys/junit/algorithms/control/actorcritic/ActorCriticOnPolicyOnPendulumTest.java">rlpark.plugin.rltoys.junit.algorithms.control.actorcritic.ActorCriticOnPolicyOnPendulumTest</a> for more tests.
+<br/>
+<br/>
+Check that online control algorithms are able to learn <i>off-policy</i> a policy with some minimal performance. 
+A fixed exploration policy is run in a problem to generate data that is used to improve a target policy. Then,
+the performance of the target policy is evaluated on a copy of the problem.
+<br/>  
+Code snippet: test the off-pac algorithm on the mountain car problem<br/>
+<pre>
+    final MountainCarEvaluationAgentFactory factory = new MountainCarEvaluationAgentFactory() {
+      @Override
+      public OffPolicyAgentEvaluable createOffPolicyAgent(Random random, MountainCar problem, Policy behaviour, double gamma) {
+        Projector criticProjector = MountainCarOffPolicyLearning.createProjector(random, problem);
+        OffPolicyTD critic = createCritic(criticProjector, gamma);
+        StateToStateAction toStateAction = MountainCarOffPolicyLearning.createToStateAction(random, problem);
+        PolicyDistribution target = new BoltzmannDistribution(random, problem.actions(), toStateAction);
+        double alpha_u = 1.0 / criticProjector.vectorNorm();
+        ActorOffPolicy actor = new ActorLambdaOffPolicy(0, gamma, target, alpha_u, toStateAction.vectorSize(), new ATraces());
+        return new OffPolicyAgentDirect(behaviour, new OffPAC(behaviour, critic, actor));
+      }
+
+      private OffPolicyTD createCritic(Projector criticProjector, double gamma) {
+        double alpha_v = .05 / criticProjector.vectorNorm();
+        double alpha_w = .0001 / criticProjector.vectorNorm();
+        GTDLambda gtd = new GTDLambda(0, gamma, alpha_v, alpha_w, criticProjector.vectorSize(), new ATraces());
+        return new CriticAdapterFA(criticProjector, gtd);
+      }
+    };
+    Assert.assertTrue(MountainCarOffPolicyLearning.evaluate(factory) &lt; 115);
+</pre>
+See <a href="https://github.com/rlpark/rlpark/blob/master/rlpark.plugin.rltoys/jvsrctests/rlpark/plugin/rltoys/junit/experiments/offpolicy/OffPolicyTests.java">rlpark.plugin.rltoys.junit.experiments.offpolicy.OffPolicyTests</a> for more tests.
+
+
+ 
