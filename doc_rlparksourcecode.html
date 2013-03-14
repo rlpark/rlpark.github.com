@@ -1,0 +1,53 @@
+---
+title: Working with RLPark source code
+layout: documentation 
+---
+
+<h1>Working with RLPark source code</h1>
+
+RLPark source code is available on github and can be downloaded using git with the following command:
+<br/>
+<span class="command">git clone git://github.com/rlpark/rlpark.git</span>
+
+<br/>
+<br/>
+RLPark is composed of different Eclipse projects, here is a description of the most important ones:
+<ul>
+  <li><span class='code'>rlpark.plugin.apache</span>: <a href='http://commons.apache.org/proper/commons-math/'>Apache Math library</a></li>
+  <li><span class='code'>rlpark.plugin.opencv</span>: <a href='http://code.google.com/p/javacv/'>Javacv library</a>, the Java Interface to OpenCV and other libraries</li>
+  <li><span class='code'>rlpark.plugin.rltoys</span>: the reinforcement learning library</li>
+  <li><span class='code'>rlpark.plugin.rltoysview</span>: visualization code of rltoys data structures for Zephyr</li>
+  <li><span class='code'>rlpark.plugin.robot</span>: Java abstraction for robot interaction</li>
+  <li><span class='code'>rlpark.example.demos</span>: main demos of rltoys algorithms</li>
+</ul>
+<br/>
+To import these projects in Eclipse:
+<ol>
+  <li>Install Zephyr plugins in Eclipse (see Download Eclipse Plugins on the <a href='http://zephyrplugins.github.com/download.html#eclipse'>Zephyr Download page</a>)</li>
+  <li>Import RLPark projects by going to <span class='menu'>File-&gt;Import...-&gt;Existing Projects into Workspace</span></li>
+  <li>Select RLPark projects download with the git command above and follow the instructions</li> 
+</ol>
+
+<h1>Coding Conventions in RLPark</h1>
+
+RLPark source code formatting conventions are close to Eclipse built-in conventions (and identical to Zephyr conventions). 
+In the project properties of <span class='code'>rlpark.plugin.rltoys</span>, they can be seen in: <span class='menu'>Java Code Style-&gt;Formatter</span>. 
+The few points specific to RLPark are:
+<ul>
+  <li>Name of constants are in mixed case with the first letter of each internal word capitalized: <span class='code'>ThisIsAConstant</span>, as opposed to all upper case.
+  <li>Access methods should be prefixed by <span class='code'>get</span> only when a copy is returned by the method:
+<pre>
+class A {
+ private B b;
+ 
+ B b() {
+   return b;
+ }
+  
+ B getB() {
+   return b != null ? b.copy() : null;
+ } 
+}
+</pre></li>
+</ul>
+Note that, when working in RLPark projects, Eclipse should reformat automatically your code with respect to RLPark conventions everytime you save your file.  
